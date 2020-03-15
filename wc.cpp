@@ -42,27 +42,48 @@ void wordcount(FILE *file)
 void linecount(FILE *file)
 {
 	int linenum = 0;
-	char c;
+	char c,prc;
 	if (file == NULL)
 		printf("reading error");
 	c = fgetc(file);
 	while (c != EOF)
 	{
-		if (c == '\n')
-			linenum++;
+		if (c == '\n') {
+			linenum++;	
+		}
+		prc = c;
 		c = fgetc(file);
-		if (c == EOF) {
-			linenum++;
+		if (c == EOF )
+		{
+			linenum++;	
 			break;
 		}
 	}
 	cout << "The sum of line is:" << linenum << endl;
 }
 
+//空行统计函数
+void emptylinecount(FILE* file)
+{
+	int count = 0;
+	char c, prc;
+	c = fgetc(file);
+	if (c == '\n')
+		count++;
+	while(c != EOF)
+	{
+		prc = c;
+		c = fgetc(file);
+		if ((c == '\n' || c == EOF)  && prc ==  '\n')
+			count++;
+	}
+	cout << "The sum of empty line if:" << count << endl;
+}
+
 int main(int argc,char* argv[])
 {
 	FILE *file;
-	char *file_name, order_name[10] = {'c','w','l'};
+	char *file_name, order_name[10] = {'c','w','l','a'};
 	char order;
 	int i = 0, tag = 0;
 	if (argc == 3)
@@ -112,6 +133,8 @@ int main(int argc,char* argv[])
 		case 'l':
 			linecount(file);
 			break;
+		case 'a':
+			emptylinecount(file);
 		default:
 			break;
 		}
